@@ -50,7 +50,7 @@ class Article extends Model implements SeoInterface
 
     /* linka o campo name (articles) para o title (seo) */
     protected $seomap = [
-        'title' => 'name',
+        'title' => ['name'],
         'description' => 'description'
     ];
 ...
