@@ -24,11 +24,29 @@ trait SeoTrait
     public function getSeoTitleAttribute()
     {
         $from = $this->seomap['title'];
+        if (!is_array($from)) {
+            return $from;
+        }
+        $source = array_map([$this, 'generateSourceSeo'], (array)$from);
+        return join($source, ' ');
+    }
+   
+    public function getSeoDescriptionAttribute()
+    {
+        $from = $this->seomap['description'];
+        if (!is_array($from)) {
+            return $from;
+        }
         $source = array_map([$this, 'generateSourceSeo'], (array)$from);
         return join($source, ' ');
     }
 
-        /**
+    public function getSeoKeywordsAttribute()
+    {
+        return $this->seo->keywords;
+    }
+
+    /**
      * Get value for seo.
      *
      * @param string $key
@@ -50,15 +68,5 @@ trait SeoTrait
         }
 
         return $object;
-    }
-    
-    public function getSeoDescriptionAttribute()
-    {
-        return $this[$this->seomap['description']];
-    }
-
-    public function getSeoKeywordsAttribute()
-    {
-        return $this->seo->keywords;
     }
 }
