@@ -13,6 +13,8 @@ class SeoServiceProvider extends ServiceProvider
 
         $this->loadViews();
 
+        $this->loadMigrations();
+
         $this->publish();
     }
 
@@ -31,9 +33,9 @@ class SeoServiceProvider extends ServiceProvider
                     $seo = $model->seo;
                 }
 
-                $seo->title = (request()->get('seo')['title']) ?: $model->seoTitle;
-                $seo->description = (request()->get('seo')['description']) ?: $model->seoDescription;
-                $seo->keywords = (request()->get('seo')['keywords']) ?: '';
+                $seo->title = (request()->input('seo')['title']) ?: $model->seoTitle;
+                $seo->description = (request()->input('seo')['description']) ?: $model->seoDescription;
+                $seo->keywords = (request()->input('seo')['keywords']) ?: '';
 
                 $model->seo()->save($seo);
             }
@@ -43,6 +45,11 @@ class SeoServiceProvider extends ServiceProvider
     protected function loadViews()
     {
         $this->loadViewsFrom(__DIR__ . '/../resources/views', 'mixdinternet/seo');
+    }
+
+    protected function loadMigrations()
+    {
+        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
     }
 
     protected function publish()
